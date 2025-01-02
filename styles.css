@@ -108,7 +108,7 @@ h1, h2, h3 {
     opacity: 0;
     transition: transform 0.3s ease;
     overflow-y: auto;  /* Mover el scroll al overlay principal */
-    backdrop-filter: blur(10px);
+    backdrop-filter: none;
 }
 
 .overlay.active {
@@ -120,9 +120,9 @@ h1, h2, h3 {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: rgb(255, 255, 255);
     animation: slideInRight 0.3s ease;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
 .overlay-header {
@@ -133,9 +133,10 @@ h1, h2, h3 {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #dc3545;
+    background: #dc3545;
     color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .overlay-title {
@@ -622,4 +623,53 @@ section .container {
 /* Asegurar que los contenedores sean transparentes */
 main.container {
     background: transparent !important;
+}
+
+/* Ajustes para el overlay y su contenido */
+.overlay {
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: none;
+}
+
+.overlay-content {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.overlay .card {
+    background: white !important;
+    backdrop-filter: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.overlay .card-header {
+    background: #dc3545 !important;
+}
+
+.overlay .card p,
+.overlay .card li,
+.overlay p,
+.overlay li {
+    color: #212529 !important;
+    text-shadow: none !important;
+}
+
+.overlay h1,
+.overlay h2,
+.overlay h3,
+.overlay h4,
+.overlay h5,
+.overlay h6 {
+    color: #dc3545 !important;
+    text-shadow: none !important;
+}
+
+.overlay .alert {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.overlay-header {
+    background: #dc3545;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
