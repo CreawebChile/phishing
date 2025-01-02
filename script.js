@@ -555,15 +555,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function showOverlay(type) {
         const info = phishingInfo[type];
         
-        // Guardar posición del scroll antes de bloquear
-        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        // Guardar la posición actual del scroll
+        scrollPosition = window.pageYOffset;
         
-        // Bloquear scroll del body
-        document.body.style.position = 'fixed';
+        // Bloquear el scroll del body manteniendo la posición
         document.body.style.top = `-${scrollPosition}px`;
-        document.body.style.width = '100%';
+        document.body.classList.add('overlay-active');
         
-        // Mostrar y animar overlay
+        // Mostrar overlay
         overlay.style.display = 'block';
         requestAnimationFrame(() => {
             overlay.classList.add('active');
@@ -572,15 +571,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Actualizar contenido
         document.querySelector('.overlay-title').innerHTML = info.title;
         document.querySelector('.overlay-body').innerHTML = info.content;
+        document.querySelector('.overlay-body').scrollTop = 0;
     }
 
     function closeOverlay() {
         // Remover clase active
         overlay.classList.remove('active');
         
-        // Restaurar scroll
-        document.body.style.position = '';
-        document.body.style.width = '';
+        // Restaurar el scroll
+        document.body.classList.remove('overlay-active');
         document.body.style.top = '';
         window.scrollTo(0, scrollPosition);
         
@@ -608,15 +607,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Prevenir scroll del body cuando el overlay está activo
     overlay.addEventListener('wheel', (e) => {
-        const overlayContent = overlay.querySelector('.overlay-content');
-        const scrollTop = overlayContent.scrollTop;
-        const scrollHeight = overlayContent.scrollHeight;
-        const height = overlayContent.clientHeight;
-
-        // Permitir scroll solo dentro del contenido del overlay
-        if ((scrollTop === 0 && e.deltaY < 0) || 
-            (scrollTop + height >= scrollHeight && e.deltaY > 0)) {
-            e.preventDefault();
+        const overlayBody = overlay.querySelector('.overlay-body');
+        if (overlayBody) {
+            const isAtTop = overlayBody.scrollTop === 0 && e.deltaY < 0;
+            const isAtBottom = overlayBody.scrollHeight - overlayBody.clientHeight - overlayBody.scrollTop <= 1 && e.deltaY > 0;
+            
+            if (isAtTop || isAtBottom) {
+                e.preventDefault();
+            }
         }
     });
 });

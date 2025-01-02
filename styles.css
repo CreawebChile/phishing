@@ -102,8 +102,8 @@ h1, h2, h3 {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
     z-index: 1000;
     transition: opacity 0.3s ease;
     opacity: 0;
@@ -114,11 +114,14 @@ h1, h2, h3 {
 }
 
 .overlay-content {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: #fff;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     transform: translateX(100%);
     transition: transform 0.3s ease;
 }
@@ -128,20 +131,22 @@ h1, h2, h3 {
 }
 
 .overlay-header {
-    position: sticky;
-    top: 0;
+    flex-shrink: 0;
     padding: 1rem;
     background-color: #dc3545;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .overlay-body {
-    background-color: #fff;
+    flex-grow: 1;
+    overflow-y: auto;
     padding: 1rem;
+    -webkit-overflow-scrolling: touch;
+    background-color: #fff;
 }
 
 .close-btn {
@@ -710,4 +715,351 @@ canvas#matrix {
 
 canvas#matrix {
     z-index: -1;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background sections */
+.matrix-space {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Content sections with background */
+.hero-section, 
+.video-section,
+.examples-section,
+.tips-section,
+.card {
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.navbar {
+    background-color: rgba(220, 53, 69, 0.95) !important;
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar-logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar-donate-btn {
+    border: none;
+    background: #ffffff;
+    color: #dc3545;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.navbar-donate-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+/* Existing overlay styles */
+// ...existing code...
+
+/* Cards and content sections */
+.card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.tip-card {
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Footer styling */
+.footer {
+    background-color: rgba(33, 37, 41, 0.95) !important;
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 2;
+    margin-top: 2rem;
+}
+
+.donation-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.donation-title {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.pp-FAC9LHMM5W6FQ {
+    background: #ffc439;
+    color: #000;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pp-FAC9LHMM5W6FQ:hover {
+    background: #ffaa00;
+    transform: translateY(-2px);
+}
+
+/* Existing responsive styles */
+// ...existing code...
+
+/* Contenedores de contenido */
+.hero-section, 
+.video-section,
+.examples-section,
+.tips-section,
+.card {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Corregir el scroll */
+body.overlay-active {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.overlay {
+    position: fixed;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.overlay-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* Ajustar espacios transparentes */
+.matrix-space {
+    height: 150px;
+    background: transparent !important;
+    margin: 2rem 0;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Contenedores transparentes */
+.container:not(.overlay-container) {
+    background: transparent !important;
+    backdrop-filter: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Mejorar legibilidad del texto */
+.card p, 
+.tip-card p,
+.list-unstyled li {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes del Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    display: none;
+}
+
+.overlay-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-header {
+    position: sticky;
+    top: 0;
+    padding: 1rem;
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.overlay-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Manejar el scroll del body */
+body.overlay-active {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* Ajustes del Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    display: none;
+}
+
+.overlay-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.overlay-header {
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.overlay-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    -webkit-overflow-scrolling: touch;
+    background-color: #fff;
+}
+
+/* Evitar scroll del body mientras el overlay está activo */
+body.overlay-active {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Ajustes del Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    display: none;
+}
+
+.overlay-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.overlay-header {
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.overlay-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    -webkit-overflow-scrolling: touch;
+    background-color: #fff;
+}
+
+/* Evitar scroll del body mientras el overlay está activo */
+body.overlay-active {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
 }
