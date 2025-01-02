@@ -32,15 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Drawing function
     function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.12)'; // Ajustar opacidad para mejor visibilidad
+        // Reducir la frecuencia de actualización en móvil
+        const isMobile = window.innerWidth <= 768;
+        ctx.fillStyle = `rgba(0, 0, 0, ${isMobile ? 0.2 : 0.12})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = 'rgba(0, 255, 0, 1)'; // Hacer los caracteres más brillantes
-        ctx.shadowBlur = 5;
+        ctx.fillStyle = 'rgba(0, 255, 0, 1)';
+        ctx.shadowBlur = isMobile ? 2 : 5;
         ctx.shadowColor = '#0F0';
         ctx.font = fontSize + 'px monospace';
 
-        for (let i = 0; i < drops.length; i++) {
+        // Reducir la cantidad de caracteres en móvil
+        const skipFrames = isMobile ? 2 : 1;
+        
+        for (let i = 0; i < drops.length; i += skipFrames) {
             const text = charArray[Math.floor(Math.random() * charArray.length)];
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
@@ -52,6 +57,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Animation loop
-    setInterval(draw, 35); // Hacer la animación más rápida
+    // Ajustar intervalo según el dispositivo
+    const updateInterval = window.innerWidth <= 768 ? 50 : 35;
+    setInterval(draw, updateInterval);
+
+    // Optimizar resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 250);
+    });
 });

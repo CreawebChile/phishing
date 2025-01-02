@@ -552,50 +552,71 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.close-btn');
     let scrollPosition = 0;
 
-    document.querySelectorAll('.info-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const type = this.getAttribute('data-type');
-            const info = phishingInfo[type];
-            
-            // Guardar posición del scroll
-            scrollPosition = window.scrollY;
-            
-            document.querySelector('.overlay-title').innerHTML = info.title;
-            document.querySelector('.overlay-body').innerHTML = info.content;
-            
-            // Mostrar overlay y deshabilitar scroll del body
-            overlay.style.display = 'block';
-            setTimeout(() => {
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-                document.body.style.top = `-${scrollPosition}px`;
-            }, 10);
+    function showOverlay(type) {
+        const info = phishingInfo[type];
+        
+        // Guardar posición del scroll antes de bloquear
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Bloquear scroll del body
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollPosition}px`;
+        document.body.style.width = '100%';
+        
+        // Mostrar y animar overlay
+        overlay.style.display = 'block';
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
         });
-    });
+        
+        // Actualizar contenido
+        document.querySelector('.overlay-title').innerHTML = info.title;
+        document.querySelector('.overlay-body').innerHTML = info.content;
+    }
 
     function closeOverlay() {
+        // Remover clase active
         overlay.classList.remove('active');
-        overlay.style.transform = 'translateX(100%)';
         
         // Restaurar scroll
-        document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.width = '';
         document.body.style.top = '';
         window.scrollTo(0, scrollPosition);
-
+        
+        // Ocultar overlay después de la animación
         setTimeout(() => {
             overlay.style.display = 'none';
-            overlay.style.transform = '';
         }, 300);
     }
 
+    // Event Listeners
+    document.querySelectorAll('.info-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            showOverlay(this.getAttribute('data-type'));
+        });
+    });
+
     closeBtn.addEventListener('click', closeOverlay);
+
+    // Cerrar con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('active')) {
             closeOverlay();
+        }
+    });
+
+    // Prevenir scroll del body cuando el overlay está activo
+    overlay.addEventListener('wheel', (e) => {
+        const overlayContent = overlay.querySelector('.overlay-content');
+        const scrollTop = overlayContent.scrollTop;
+        const scrollHeight = overlayContent.scrollHeight;
+        const height = overlayContent.clientHeight;
+
+        // Permitir scroll solo dentro del contenido del overlay
+        if ((scrollTop === 0 && e.deltaY < 0) || 
+            (scrollTop + height >= scrollHeight && e.deltaY > 0)) {
+            e.preventDefault();
         }
     });
 });
